@@ -39,9 +39,9 @@ const AcccountProfile = ({user, btnTitle}) => {
 
     const handleImage = (e, fieldChange) => {
         e.preventDefault();
-
+        
         const fileReader = new FileReader()
-        if(e.target.files && e.target.length > 0){
+        if(e.target.files && e.target.files.length > 0){
             const file = e.target.files[0];
             setFiles(Array.from(e.target.files))
             
@@ -49,10 +49,8 @@ const AcccountProfile = ({user, btnTitle}) => {
 
             fileReader.onload = async (e) => {
                 const imageDataUrl = e.target?.result?.toString() || '';
-
                 fieldChange(imageDataUrl);
             }
-
             fileReader.readAsDataURL(file)
         }
     }
@@ -68,7 +66,7 @@ const AcccountProfile = ({user, btnTitle}) => {
           values.profile_photo = imgRes[0].url;
         }
       }
-
+      
       await updateUser(
         {
           username: values.username,

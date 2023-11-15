@@ -1,6 +1,6 @@
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import { fetchUser } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs"
+import { auth } from '@clerk/nextjs';
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { profileTabs } from "@/constants";
@@ -8,8 +8,8 @@ import Image from "next/image";
 import ThreadsTab from "@/components/shared/ThreadsTab";
 export default async function Page({params}){
 
-    const user = currentUser()
-    if(!user) return null;
+    const { userId } = auth();
+    if(!userId) return null;
     const userInfo = await fetchUser(params.id)
     
     if(!userInfo?.onboarded) redirect('/onboarding');
@@ -18,7 +18,7 @@ export default async function Page({params}){
         <section className="text-light-2">
             <ProfileHeader
             accountId={userInfo.id}
-            authUserId={user.id}
+            authUserId={userId}
             name={userInfo.name}
             username={userInfo.username}
             imgUrl={userInfo.image}
@@ -53,7 +53,7 @@ export default async function Page({params}){
                     <TabsContent key={`content-${tab.label}`} value={tab.label}
                     className="w-full text-light-1">
                         <ThreadsTab
-                        currentUserId={user.id}
+                        currentUserId={userId}
                         accountId={userInfo.id}
                         accountType="User"
                         />

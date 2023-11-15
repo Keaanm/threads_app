@@ -44,7 +44,7 @@ export const POST = async (request) => {
   } catch (err) {
     return NextResponse.json({ message: err }, { status: 400 });
   }
-
+  console.log(eventType)
   // Listen organization creation event
   if (eventType === "organization.created") {
     // Resource: https://clerk.com/docs/reference/backend-api/tag/Organizations#operation/CreateOrganization
